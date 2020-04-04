@@ -1,0 +1,54 @@
+<div class="card-body">
+  <h1>Add Form</h1>
+  <form [formGroup]="addForm" (ngSubmit)="addForm.valid && submitForm(addForm.value)" novalidate>
+    <div>
+        <label>Name</label>
+        <input placeholder="Name" formControlName="name">
+        <span style="color: red;" *ngIf="name.errors?.required"> This field is required. </span>
+    </div>
+    <div>
+      <label>Gender</label>
+      <input id="male" type="radio" class="custom-control-input" value="male" formControlName="gender" ngModel>
+      <label class="custom-control-label" for="male">Male</label>
+      <input id="female" type="radio" class="custom-control-input" value="female" formControlName="gender" ngModel>
+      <label class="custom-control-label" for="male">Female</label>
+    </div>
+    <br>
+    <div>
+      <label>Area</label>
+      <input id="area" type="text"  formControlName="area">
+      <span style="color: red;" *ngIf="area.errors?.required"> This field is required. </span>
+      <br>
+      <label>Zip Code</label>
+      <input id="zip" type="text" formControlName="zip">
+      <span style="color: red;" *ngIf="zip.errors?.required"> This field is required. </span>
+    </div>
+    <input placeholder="Id" formControlName="id" type="hidden">
+    <br />
+    <div>
+      <div>
+        <button type="button" mat-raised-button (click)="fileInput.click()" class="btn btn-theme-color btn-round">Choose
+          Images</button>
+        <span style="color: black;"> {{image_info}} </span>
+        <input type="file" #fileInput id="fileUpload" name="fileUpload" multiple="multiple" accept=".png, .jpg, .jpeg"
+          style="display: none;" (change)="onFileChange($event)" />
+        <span *ngIf="addForm.errors?.invalidFileType"> Valid file types are jpeg, jpg & png.
+        </span>
+        <span *ngIf="addForm.errors?.fileCountError">Max file allowed
+          {{max_no_files - imgs.length}}.</span>
+        <span *ngIf="addForm.errors?.invalidFileSize">{{max_file_size_err_msg}}</span>
+      </div>
+    </div>
+
+    <br /><br />
+    <div class="row" *ngIf="imgs && imgs.length > 0">
+      <div *ngFor="let img_src of imgs">
+        <span class="close delete-img" (click)="deleteImage(img_src)">&times;</span>
+        <img src="{{img_src}}" class="img-width" style="width: inherit; height: 200px;" />
+      </div>
+      <br /><br />
+    </div>
+    <button type="submit" class="btn btn-theme-color pull-right btn-round">Submit</button>
+    <div class="clearfix"></div>
+  </form>
+</div>
